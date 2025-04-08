@@ -1,7 +1,7 @@
 from transformers import pipeline
 
-# Load MentalRoBERTa for sentiment analysis
-sentiment_analyzer = pipeline("text-classification", model="mental/mental-roberta-base")
+# Use the default sentiment model (works on Streamlit Cloud)
+sentiment_analyzer = pipeline("sentiment-analysis")
 
 def analyze_sentiment(text):
     result = sentiment_analyzer(text)[0]
