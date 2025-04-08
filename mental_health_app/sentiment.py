@@ -1,8 +1,18 @@
-from transformers import pipeline
+from nltk.sentiment import SentimentIntensityAnalyzer
+import nltk
 
-# Use the default sentiment model (works on Streamlit Cloud)
-sentiment_analyzer = pipeline("sentiment-analysis")
+# Download the lexicon once (cached afterward)
+nltk.download('vader_lexicon')
+
+analyzer = SentimentIntensityAnalyzer()
 
 def analyze_sentiment(text):
-    result = sentiment_analyzer(text)[0]
-    return result['label'], result['score']
+    scores = analyzer.polarity_scores(text)
+    compound = scores['compound']
+    
+    if compound >= 0.05:
+        return "POSITIVE", compound
+    elif compound <= -0.05:
+        return "NEGATIVE", compound
+    else:
+        return "NEUTRAL", compound
